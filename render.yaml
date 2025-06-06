@@ -4,7 +4,7 @@ services:
     name: k-stock-backend
     env: python
     buildCommand: "cd backend && pip install -r requirements.txt"
-    startCommand: "cd backend && uvicorn main:app --host 0.0.0.0 --port $PORT"
+    startCommand: "uvicorn backend.main:app --host 0.0.0.0 --port $PORT"
     envVars:
       - key: ENVIRONMENT
         value: production
@@ -38,7 +38,7 @@ services:
     staticPublishPath: ./frontend/dist
     envVars:
       - key: VITE_API_BASE_URL
-        value: "https://k-stock-backend.onrender.com"
+        value: "https://k-stock-insight.onrender.com"
 
 # Database
 databases:

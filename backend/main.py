@@ -456,6 +456,44 @@ async def get_dashboard_data():
         conn.close()
         raise HTTPException(status_code=500, detail=f"대시보드 데이터 조회 실패: {str(e)}")
 
+@app.get("/api/db-info")
+async def get_db_info():
+    """데이터베이스 테이블 정보 확인"""
+    conn = get_db_connection()
+    cursor = conn.cursor()
+    
+    try:
+        # 현재 데이터베이스의 모든 테이블 목록 조회
+        cursor.execute("""
+            SELECT table_name 
+            FROM information_schema.tables 
+            WHERE table_schema = 'public'
+            ORDER BY table_name
+        """)
+        tables = [row['table_name'] for row in cursor.fetchall()]
+        
+        # 각 테이블의 레코드 수 조회 (테이블이 존재하는 경우만)
+        table_counts = {}
+        for table in tables:
+            try:
+                cursor.execute(f"SELECT COUNT(*) as count FROM {table}")
+                result = cursor.fetchone()
+                table_counts[table] = result['count']
+            except Exception as e:
+                table_counts[table] = f"Error: {str(e)}"
+        
+        conn.close()
+        
+        return {
+            "tables": tables,
+            "table_counts": table_counts,
+            "database_name": os.getenv('DB_NAME', 'Unknown')
+        }
+        
+    except Exception as e:
+        conn.close()
+        raise HTTPException(status_code=500, detail=f"DB 정보 조회 실패: {str(e)}")
+
 if __name__ == "__main__":
     import uvicorn
     uvicorn.run(app, host="0.0.0.0", port=8000) 
