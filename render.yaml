@@ -1,0 +1,47 @@
+services:
+  # Backend API Service
+  - type: web
+    name: k-stock-insight-api
+    env: python
+    buildCommand: "cd backend && pip install -r requirements.txt"
+    startCommand: "cd backend && uvicorn main:app --host 0.0.0.0 --port $PORT"
+    envVars:
+      - key: ENVIRONMENT
+        value: production
+      - key: DB_HOST
+        fromDatabase:
+          name: k-stock-insight-db
+          property: host
+      - key: DB_PORT
+        fromDatabase:
+          name: k-stock-insight-db
+          property: port
+      - key: DB_NAME
+        fromDatabase:
+          name: k-stock-insight-db
+          property: database
+      - key: DB_USER
+        fromDatabase:
+          name: k-stock-insight-db
+          property: user
+      - key: DB_PASSWORD
+        fromDatabase:
+          name: k-stock-insight-db
+          property: password
+      - key: ALLOWED_ORIGINS
+        value: "https://k-stock-insight-frontend.onrender.com"
+
+  # Frontend Static Site
+  - type: static
+    name: k-stock-insight-frontend
+    buildCommand: "cd frontend && npm install && npm run build"
+    staticPublishPath: ./frontend/dist
+    envVars:
+      - key: VITE_API_BASE_URL
+        value: "https://k-stock-insight-api.onrender.com"
+
+# Database
+databases:
+  - name: k-stock-insight-db
+    databaseName: k_stock_insight
+    user: k_stock_user 

@@ -19,10 +19,24 @@ app = FastAPI(
     version="1.0.0"
 )
 
-# CORS 설정
+# CORS 설정 - 환경에 따라 다르게 설정
+ALLOWED_ORIGINS = [
+    "http://localhost:5173",  # Vue.js 개발 서버
+    "http://127.0.0.1:5173",  # Vue.js 개발 서버 (대안)
+    "https://your-frontend-app.onrender.com",  # Render 프론트엔드 도메인 (배포 후 수정 필요)
+]
+
+# 환경 변수에서 추가 도메인 허용
+if additional_origins := os.getenv('ALLOWED_ORIGINS'):
+    ALLOWED_ORIGINS.extend(additional_origins.split(','))
+
+# 개발 환경에서는 모든 도메인 허용
+if os.getenv('ENVIRONMENT') == 'development':
+    ALLOWED_ORIGINS = ["*"]
+
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],  # Vue.js 개발 서버
+    allow_origins=ALLOWED_ORIGINS,
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
