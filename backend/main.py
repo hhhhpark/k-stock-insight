@@ -25,9 +25,7 @@ app = FastAPI(
 
 # CORS 설정 - 환경에 따라 다르게 설정
 ALLOWED_ORIGINS = [
-    "https://k-stock-frontend.onrender.com",  # 실제 프론트엔드 URL
-    "http://localhost:5173",  # 로컬 개발용
-    "http://localhost:3000",  # 로컬 개발용 (대안 포트)
+    "*"  # 임시: 모든 도메인 허용 (배포 테스트용)
 ]
 
 # 환경 변수에서 추가 도메인 허용
