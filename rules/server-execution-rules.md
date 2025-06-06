@@ -63,4 +63,4 @@ npm run dev
 ---
 **🎯 기억하세요: 항상 적절한 디렉토리에서 서버를 시작해야 합니다!** 
 
-VITE_API_BASE_URL = https://k-stock-insight-api.onrender.com 
+VITE_API_BASE_URL = https://k-stock-insight.onrender.com 

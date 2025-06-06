@@ -8,7 +8,7 @@ export const API_CONFIG = {
   
   // 프로덕션 환경
   production: {
-    baseURL: 'https://k-stock-backend.onrender.com',
+    baseURL: 'https://k-stock-insight.onrender.com',
     timeout: 30000,
   }
 }
