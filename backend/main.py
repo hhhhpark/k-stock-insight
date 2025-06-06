@@ -27,7 +27,6 @@ app = FastAPI(
 ALLOWED_ORIGINS = [
     "http://localhost:5173",  # Vue.js 개발 서버
     "http://127.0.0.1:5173",  # Vue.js 개발 서버 (대안)
-    "https://k-stock-insight-frontend.onrender.com",  # Render 프론트엔드 도메인
     "https://k-stock-frontend.onrender.com",  # 실제 배포된 프론트엔드 도메인
 ]
 

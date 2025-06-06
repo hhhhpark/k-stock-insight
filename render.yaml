@@ -29,7 +29,7 @@ services:
           name: k-stock-insight-db
           property: password
       - key: ALLOWED_ORIGINS
-        value: "https://k-stock-insight-frontend.onrender.com,https://k-stock-frontend.onrender.com"
+        value: "https://k-stock-frontend.onrender.com"
 
   # Frontend Static Site
   - type: static
@@ -38,7 +38,7 @@ services:
     staticPublishPath: ./frontend/dist
     envVars:
       - key: VITE_API_BASE_URL
-        value: "https://k-stock-insight-api.onrender.com"
+        value: "https://k-stock-backend.onrender.com"
 
 # Database
 databases:
