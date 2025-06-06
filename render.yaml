@@ -29,7 +29,7 @@ services:
           name: k-stock-insight-db
           property: password
       - key: ALLOWED_ORIGINS
-        value: "https://k-stock-insight-frontend.onrender.com"
+        value: "https://k-stock-insight-frontend.onrender.com,https://k-stock-frontend.onrender.com"
 
   # Frontend Static Site
   - type: static
