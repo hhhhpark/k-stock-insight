@@ -1,7 +1,7 @@
 services:
   # Backend API Service
   - type: web
-    name: k-stock-insight-api
+    name: k-stock-backend
     env: python
     buildCommand: "cd backend && pip install -r requirements.txt"
     startCommand: "cd backend && uvicorn main:app --host 0.0.0.0 --port $PORT"
@@ -33,7 +33,7 @@ services:
 
   # Frontend Static Site
   - type: static
-    name: k-stock-insight-frontend
+    name: k-stock-frontend
     buildCommand: "cd frontend && npm install && npm run build"
     staticPublishPath: ./frontend/dist
     envVars:
