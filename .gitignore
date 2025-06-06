@@ -163,7 +163,7 @@ yarn-error.log*
 lerna-debug.log*
 
 # Vue.js build outputs
-dist/
+# dist/  # Render 배포를 위해 dist 폴더 포함
 dist-ssr/
 *.local
 
@@ -275,7 +275,7 @@ yarn-debug.log*
 yarn-error.log*
 
 # Production builds
-dist/
+# dist/
 build/
 
 # Runtime data
