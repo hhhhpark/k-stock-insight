@@ -8,6 +8,10 @@ import os
 from typing import List, Dict, Any, Optional
 from datetime import datetime, date
 import logging
+from dotenv import load_dotenv
+
+# .env 파일 로드
+load_dotenv()
 
 # 로깅 설정
 logging.basicConfig(level=logging.INFO)
@@ -43,22 +47,36 @@ app.add_middleware(
 )
 
 # 데이터베이스 설정
-DB_CONFIG = {
-    'host': os.getenv('DB_HOST', 'localhost'),
-    'port': os.getenv('DB_PORT', '5432'),
-    'database': os.getenv('DB_NAME', 'k_stock_insight'),
-    'user': os.getenv('DB_USER', 'hhhhp'),
-    'password': os.getenv('DB_PASSWORD', '')
-}
+DATABASE_URL = os.getenv('DATABASE_URL')
 
-def get_db_connection():
-    """데이터베이스 연결 생성"""
-    try:
-        conn = psycopg2.connect(**DB_CONFIG, cursor_factory=RealDictCursor)
-        return conn
-    except Exception as e:
-        logger.error(f"데이터베이스 연결 실패: {e}")
-        raise HTTPException(status_code=500, detail="데이터베이스 연결 실패")
+if DATABASE_URL:
+    # DATABASE_URL이 있는 경우 이를 사용
+    def get_db_connection():
+        """데이터베이스 연결 생성 (DATABASE_URL 사용)"""
+        try:
+            conn = psycopg2.connect(DATABASE_URL, cursor_factory=RealDictCursor)
+            return conn
+        except Exception as e:
+            logger.error(f"데이터베이스 연결 실패: {e}")
+            raise HTTPException(status_code=500, detail="데이터베이스 연결 실패")
+else:
+    # 개별 설정 사용
+    DB_CONFIG = {
+        'host': os.getenv('DB_HOST', 'localhost'),
+        'port': os.getenv('DB_PORT', '5432'),
+        'database': os.getenv('DB_NAME', 'k_stock_insight'),
+        'user': os.getenv('DB_USER', 'hhhhp'),
+        'password': os.getenv('DB_PASSWORD', '')
+    }
+
+    def get_db_connection():
+        """데이터베이스 연결 생성"""
+        try:
+            conn = psycopg2.connect(**DB_CONFIG, cursor_factory=RealDictCursor)
+            return conn
+        except Exception as e:
+            logger.error(f"데이터베이스 연결 실패: {e}")
+            raise HTTPException(status_code=500, detail="데이터베이스 연결 실패")
 
 @app.get("/")
 async def root():
